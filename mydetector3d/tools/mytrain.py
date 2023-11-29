@@ -22,7 +22,8 @@ from torch.utils.data import DistributedSampler as DistributedSampler
 #.tools.train_utils import train_model
 
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = "3" #"0,1"
+os.environ['CUDA_VISIBLE_DEVICES'] = "0" #"0,1"
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:32"
 
 #output/kitti_models/pointpillar/0413/ckpt/checkpoint_epoch_128.pth
 #/home/010796032/3DObject/modelzoo_openpcdet/pointpillar_7728.pth
@@ -38,11 +39,13 @@ from mydetector3d.models.detectors.voxelnext import VoxelNeXt
 from mydetector3d.models.detectors.my3dmodel import My3Dmodel
 from mydetector3d.models.detectors.my3dmodelv2 import My3Dmodelv2
 from mydetector3d.models.detectors.bevfusion import BevFusion
+from mydetector3d.models.detectors.centerpoint import CenterPoint
 __modelall__ = {
     #'Detector3DTemplate': Detector3DTemplate,
      'SECONDNet': SECONDNet,
     # 'PartA2Net': PartA2Net,
     # 'PVRCNN': PVRCNN,
+     'CenterPoint': CenterPoint,
      'PointPillar': PointPillar,
      'My3Dmodel': My3Dmodel,
      'My3Dmodelv2': My3Dmodelv2,
@@ -79,13 +82,13 @@ __datasetall__ = {
 #'mydetector3d/tools/cfgs/nuscenes_models/cbgs_pp_multihead.yaml'
 def parse_config():
     parser = argparse.ArgumentParser(description='arg parser')
-    parser.add_argument('--cfg_file', type=str, default='mydetector3d/tools/cfgs/nuscenes_models/bevfusion.yaml', help='specify the config for training')
-    parser.add_argument('--batch_size', type=int, default=4, required=False, help='batch size for training')
+    parser.add_argument('--cfg_file', type=str, default='mydetector3d/tools/cfgs/waymokitti_models/centerpoint_pillar.yaml', help='specify the config for training')
+    parser.add_argument('--batch_size', type=int, default=2, required=False, help='batch size for training')
     parser.add_argument('--epochs', type=int, default=128, required=False, help='number of epochs to train for')
-    parser.add_argument('--workers', type=int, default=4, help='number of workers for dataloader')
-    parser.add_argument('--extra_tag', type=str, default='0522', help='extra tag for this experiment')
-    parser.add_argument('--ckpt', type=str, default='/data/cmpe249-fa23/Mymodels/nuscenes_models/bevfusion/0522/ckpt/latest_model.pth', help='checkpoint to start from')
-    parser.add_argument('--outputfolder', type=str, default='/data/cmpe249-fa23/Mymodels/', help='output folder path')
+    parser.add_argument('--workers', type=int, default=2, help='number of workers for dataloader')
+    parser.add_argument('--extra_tag', type=str, default='varsha', help='extra tag for this experiment')
+    parser.add_argument('--ckpt', type=str, default='/home/student/models/waymokitti_models/centerpoint_pillar/1127_cp/ckpt/latest_model.pth', help='checkpoint to start from') # '/home/student/models/waymokitti_models/pointpillar/1122/ckpt/latest_model.pth'
+    parser.add_argument('--outputfolder', type=str, default='/home/student/models', help='output folder path')
     parser.add_argument('--pretrained_model', type=str, default=None, help='pretrained_model')
     parser.add_argument('--launcher', choices=['none', 'pytorch', 'slurm'], default='none')
     parser.add_argument('--tcp_port', type=int, default=18888, help='tcp port for distrbuted training')
@@ -218,8 +221,10 @@ def main():
 
     #return PointPillar module with module list
     #model = build_network(model_cfg=cfg.MODEL, num_class=len(cfg.CLASS_NAMES), dataset=train_set)
+  
     model_cfg=cfg.MODEL
     model_name=model_cfg.NAME
+    
     num_class=len(cfg.CLASS_NAMES)
     model = __modelall__[model_name](
         model_cfg=model_cfg, num_class=num_class, dataset=train_set
@@ -248,7 +253,7 @@ def main():
     if args.ckpt is not None:
         it, start_epoch = model.load_params_with_optimizer(args.ckpt, to_cpu=dist_train, optimizer=optimizer, logger=logger)
         last_epoch = start_epoch + 1
-
+    torch.cuda.empty_cache()
     model.train()  # before wrap to DistributedDataParallel to support fixed some parameters
     if dist_train:
         model = nn.parallel.DistributedDataParallel(model, device_ids=[cfg.LOCAL_RANK % torch.cuda.device_count()])
@@ -264,6 +269,7 @@ def main():
     logger.info('**********************Start training %s/%s(%s)**********************'
                 % (cfg.EXP_GROUP_PATH, cfg.TAG, args.extra_tag))
 
+    torch.cuda.empty_cache()
     train_model(
         model,
         optimizer,

@@ -205,6 +205,7 @@ def train_model(model, optimizer, train_loader, model_func, lr_scheduler, optim_
                         os.remove(ckpt_list[cur_file_idx])
 
                 ckpt_name = ckpt_save_dir / ('checkpoint_epoch_%d' % trained_epoch)
+                print(f'checkpoint_name after epoch: ', ckpt_name)
                 save_checkpoint(
                     checkpoint_state(model, optimizer, trained_epoch, accumulated_iter), filename=ckpt_name,
                 )
@@ -232,7 +233,7 @@ def checkpoint_state(model=None, optimizer=None, epoch=None, it=None):
     return {'epoch': epoch, 'it': it, 'model_state': model_state, 'optimizer_state': optim_state, 'version': version}
 
 
-def save_checkpoint(state, filename='checkpoint'):
+def save_checkpoint(state, filename=''):
     if False and 'optimizer_state' in state:
         optimizer_state = state['optimizer_state']
         state.pop('optimizer_state', None)
@@ -243,6 +244,7 @@ def save_checkpoint(state, filename='checkpoint'):
             torch.save({'optimizer_state': optimizer_state}, optimizer_filename)
 
     filename = '{}.pth'.format(filename)
+    print(f'filename: ', filename)
     if torch.__version__ >= '1.4':
         torch.save(state, filename, _use_new_zipfile_serialization=False)
     else:

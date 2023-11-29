@@ -752,6 +752,7 @@ def create_waymo_infos(dataset_cfg, class_names, data_path, save_path,
 def create_waymo_gt_database(
     dataset_cfg, class_names, data_path, save_path, processed_data_tag='waymo_processed_data',
     workers=min(16, multiprocessing.cpu_count()), use_parallel=False, crop_gt_with_tail=False):
+
     dataset = WaymoDataset(
         dataset_cfg=dataset_cfg, class_names=class_names, root_path=data_path,
         training=False, logger=common_utils.create_logger()
@@ -891,7 +892,8 @@ if __name__ == '__main__':
 
     ROOT_DIR = (Path(__file__).resolve().parent / '../../../').resolve()
 
-    OUTPUT_DIR = Path('/data/cmpe249-fa22/Waymo132')
+    OUTPUT_DIR = Path('/home/student/data')
+    DATA_DIR = Path('/DATA5T/Dataset/WaymoKitti/train0to10')
 
     folders = ["training_0000","training_0001", "training_0002","training_0003","training_0004","training_0005","training_0006","training_0007","training_0008","training_0009" \
                    "training_0010","training_0011", "training_0012","training_0013","training_0014","training_0015","training_0016","training_0017","training_0018","training_0019" \
@@ -906,12 +908,12 @@ if __name__ == '__main__':
         dataset_cfg = EasyDict(yaml_config)
         dataset_cfg.PROCESSED_DATA_TAG = args.processed_data_tag #'waymo_processed_data_v0_5_0'
 
-        create_trainvaltestsplitImageSets(OUTPUT_DIR / 'raw_data', OUTPUT_DIR)
+        create_trainvaltestsplitImageSets(DATA_DIR / 'raw_data', OUTPUT_DIR)
 
         create_waymo_infos(
             dataset_cfg=dataset_cfg,
             class_names=['Vehicle', 'Pedestrian', 'Cyclist'],
-            data_path=OUTPUT_DIR, #ROOT_DIR / 'data' / 'waymo',
+            data_path=DATA_DIR, #ROOT_DIR / 'data' / 'waymo',
             save_path=OUTPUT_DIR, #ROOT_DIR / 'data' / 'waymo',
             raw_data_tag='raw_data', #contain the training_0000
             processed_data_tag=args.processed_data_tag,
@@ -927,7 +929,7 @@ if __name__ == '__main__':
         create_waymo_gt_database(
             dataset_cfg=dataset_cfg,
             class_names=['Vehicle', 'Pedestrian', 'Cyclist'],
-            data_path=OUTPUT_DIR, #ROOT_DIR / 'data' / 'waymo',
+            data_path=DATA_DIR, #ROOT_DIR / 'data' / 'waymo',
             save_path=OUTPUT_DIR, #ROOT_DIR / 'data' / 'waymo',
             processed_data_tag=args.processed_data_tag,
             use_parallel=args.use_parallel, 
@@ -936,13 +938,13 @@ if __name__ == '__main__':
     elif args.func == 'mygeninfo':
         #folders = ["training_0000"]
         #folders = ["training_0000","training_0001", "training_0002","training_0003","training_0004","training_0005","training_0006","training_0007","training_0008","training_0009"]
-        root_path="/data/cmpe249-fa22/Waymo132"
+        root_path="/DATA5T/Dataset/WaymoKitti/train0to10"
         data_files = [path for x in folders for path in glob(os.path.join(root_path, x, "*.tfrecord"))]
         print("totoal number of files:", len(data_files))
         #create_trainvaltestsplitImageSets2(data_files, OUTPUT_DIR)
         myget_infos(data_files, OUTPUT_DIR, processed_data_tag=args.processed_data_tag)
     elif args.func == 'mycreateImageSet':
-        root_path="/data/cmpe249-fa22/Waymo132"
+        root_path="/DATA5T/Dataset/WaymoKitti/train0to10"
         data_files = [path for x in folders for path in glob(os.path.join(root_path, x, "*.tfrecord"))]
         print("totoal number of files:", len(data_files))#248, 648 for all folders
         create_trainvaltestsplitImageSets2(data_files, OUTPUT_DIR)
@@ -956,7 +958,7 @@ if __name__ == '__main__':
         create_waymo_gt_database(
             dataset_cfg=dataset_cfg,
             class_names=['Vehicle', 'Pedestrian', 'Cyclist'],
-            data_path=OUTPUT_DIR, #ROOT_DIR / 'data' / 'waymo',
+            data_path=DATA_DIR, #ROOT_DIR / 'data' / 'waymo',
             save_path=OUTPUT_DIR, #ROOT_DIR / 'data' / 'waymo',
             processed_data_tag=args.processed_data_tag,
             use_parallel=args.use_parallel, 

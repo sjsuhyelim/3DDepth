@@ -2,12 +2,12 @@
 # from .PartA2_net import PartA2Net
 # from .point_rcnn import PointRCNN
 from .pointpillar import PointPillar
-# from .pv_rcnn import PVRCNN
+#from .pv_rcnn import PVRCNN
 from .second_net import SECONDNet
 # from .second_net_iou import SECONDNetIoU
 # from .caddn import CaDDN
 # from .voxel_rcnn import VoxelRCNN
-# from .centerpoint import CenterPoint
+
 # from .pv_rcnn_plusplus import PVRCNNPlusPlus
 # from .mppnet import MPPNet
 # from .mppnet_e2e import MPPNetE2E
@@ -15,18 +15,20 @@ from .second_net import SECONDNet
 from .voxelnext import VoxelNeXt
 from .bevfusion import BevFusion
 from mydetector3d.models.detectors.my3dmodel import My3Dmodel
+from mydetector3d.models.detectors.centerpoint import CenterPoint
+
 __all__ = {
     #'Detector3DTemplate': Detector3DTemplate,
      'SECONDNet': SECONDNet,
     # 'PartA2Net': PartA2Net,
-    # 'PVRCNN': PVRCNN,
+     # 'PVRCNN': PVRCNN,
      'PointPillar': PointPillar,
      'My3Dmodel': My3Dmodel,
     # 'PointRCNN': PointRCNN,
     # 'SECONDNetIoU': SECONDNetIoU,
     # 'CaDDN': CaDDN,
     # 'VoxelRCNN': VoxelRCNN,
-    # 'CenterPoint': CenterPoint,
+      'CenterPoint': CenterPoint,
     # 'PillarNet': PillarNet,
     # 'PVRCNNPlusPlus': PVRCNNPlusPlus,
     # 'MPPNet': MPPNet,

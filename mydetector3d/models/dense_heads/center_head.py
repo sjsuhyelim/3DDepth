@@ -68,6 +68,7 @@ class CenterHead(nn.Module):
             self.class_id_mapping_each_head.append(cur_class_id_mapping)
 
         total_classes = sum([len(x) for x in self.class_names_each_head])
+
         assert total_classes == len(self.class_names), f'class_names_each_head={self.class_names_each_head}'
 
         self.shared_conv = nn.Sequential(
