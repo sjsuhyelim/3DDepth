@@ -1,5 +1,5 @@
 DATASET: 'WaymoKittiDataset'
-DATA_PATH: '/DATA5T/Dataset/WaymoKitti/4c_train5678'
+DATA_PATH: '/data/cmpe249-fa22/WaymoKitti/4c_train5678' #'/DATA5T/Dataset/WaymoKitti/4c_train5678' # for the lab server
 
 POINT_CLOUD_RANGE: [-75.2, -75.2, -2, 75.2, 75.2, 4] #[-75.2, -75.2, -2, 75.2, 75.2, 4] #[0, -40, -3, 70.4, 40, 1]
 

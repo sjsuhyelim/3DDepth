@@ -49,12 +49,14 @@ from mydetector3d.models.detectors.my3dmodel import My3Dmodel
 from mydetector3d.models.detectors.my3dmodelv2 import My3Dmodelv2
 from mydetector3d.models.detectors.my3dmodelv2_compressor import My3Dmodelv2_compressor
 from mydetector3d.models.detectors.bevfusion import BevFusion
+from mydetector3d.models.detectors.centerpoint import CenterPoint
 __modelall__ = {
     #'Detector3DTemplate': Detector3DTemplate,
      'SECONDNet': SECONDNet,
     # 'PartA2Net': PartA2Net,
     # 'PVRCNN': PVRCNN,
      'PointPillar': PointPillar,
+    'CenterPoint': CenterPoint,
      'My3Dmodel': My3Dmodel,
      'My3Dmodelv2': My3Dmodelv2,
      'My3Dmodelv2_compressor': My3Dmodelv2_compressor,
@@ -102,17 +104,17 @@ def load_data_to_device(batch_dict, device):
 
 def parse_config():
     parser = argparse.ArgumentParser(description='arg parser')
-    parser.add_argument('--cfg_file', type=str, default='mydetector3d/tools/cfgs/nuscenes_models/cbgs_pp_multihead.yaml', help='specify the model config')
+    parser.add_argument('--cfg_file', type=str, default='/home/015957045/3DDepth/mydetector3d/tools/cfgs/waymokitti_models/centerpoint_pillar.yaml', help='specify the model config')
     parser.add_argument('--dataset_cfg_file', type=str, default=None, help='specify the dataset config')
     #parser.add_argument('--batch_size', type=int, default=16, required=False, help='batch size')
-    parser.add_argument('--workers', type=int, default=4, help='number of workers for dataloader')
-    parser.add_argument('--ckpt', type=str, default='/data/cmpe249-fa22/Mymodels/nuscenes_models/cbgs_pp_multihead/0522/ckpt/checkpoint_epoch_128.pth', help='checkpoint to evaluate')
-    parser.add_argument('--tag', type=str, default='0624', help='rag name')
-    parser.add_argument('--outputpath', type=str, default='/data/cmpe249-fa22/Mymodels/', help='output path')
+    parser.add_argument('--workers', type=int, default=2, help='number of workers for dataloader')
+    parser.add_argument('--ckpt', type=str, default='/data/cmpe249-fa23/Argoverse2/models/centerpoint_latestmodel.pth', help='checkpoint to evaluate')
+    parser.add_argument('--tag', type=str, default='1129_centerpoint', help='rag name')
+    parser.add_argument('--outputpath', type=str, default='/data/cmpe249-fa23/Argoverse2/outputs/', help='output path')
     parser.add_argument('--gpuid', default=0, type=int, help='GPU id to use.')
     parser.add_argument('--save_to_file', default=True, help='')
     parser.add_argument('--kittiformat', default=True, help='')
-    parser.add_argument('--eval_only', default=True, help='') #When detection result is available, set to True and just run the evaluation
+    parser.add_argument('--eval_only', default=False, help='') #When detection result is available, set to True and just run the evaluation
     parser.add_argument('--savebatchidx', type=int, default=1, help='Save one batch data to pkl for visualization')
     parser.add_argument('--infer_time', default=True, help='calculate inference latency') #action='store_true' true if specified
 

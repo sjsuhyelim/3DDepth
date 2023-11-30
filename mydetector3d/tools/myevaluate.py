@@ -71,12 +71,12 @@ def load_data_to_device(batch_dict, device):
 #'/data/cmpe249-fa22/Mymodels/waymokitti_models/second/0502/ckpt/checkpoint_epoch_128.pth' #updated
 def parse_config():
     parser = argparse.ArgumentParser(description='arg parser')
-    parser.add_argument('--cfg_file', type=str, default='mydetector3d/tools/cfgs/waymo_models/mysecond.yaml', help='specify the config for training')
+    parser.add_argument('--cfg_file', type=str, default='mydetector3d/tools/cfgs/waymo_models/pointpillar.yaml', help='specify the config for training')
 
     parser.add_argument('--batch_size', type=int, default=16, required=False, help='batch size for training')
-    parser.add_argument('--workers', type=int, default=4, help='number of workers for dataloader')
-    parser.add_argument('--extra_tag', type=str, default='0426', help='extra tag for this experiment')
-    parser.add_argument('--ckpt', type=str, default='/data/cmpe249-fa22/Mymodels/waymo_models/mysecond/0429/ckpt/checkpoint_epoch_128.pth', help='checkpoint to start from')
+    parser.add_argument('--workers', type=int, default=2, help='number of workers for dataloader')
+    parser.add_argument('--extra_tag', type=str, default='1129', help='extra tag for this experiment')
+    parser.add_argument('--ckpt', type=str, default='/data/cmpe249-fa23/Argoverse2/models/pointpillar_latestmodel.pth', help='checkpoint to start from')
     parser.add_argument('--pretrained_model', type=str, default=None, help='pretrained_model')
     parser.add_argument('--launcher', choices=['none', 'pytorch', 'slurm'], default='none')
     parser.add_argument('--gpuid', default=1, type=int, help='GPU id to use.')
@@ -111,6 +111,7 @@ from mydetector3d.models.detectors.pointpillar import PointPillar
 from mydetector3d.models.detectors.second_net import SECONDNet
 from mydetector3d.models.detectors.voxelnext import VoxelNeXt
 from mydetector3d.models.detectors.my3dmodel import My3Dmodel
+from mydetector3d.models.detectors.centerpoint import CenterPoint
 __modelall__ = {
     #'Detector3DTemplate': Detector3DTemplate,
      'SECONDNet': SECONDNet,
@@ -118,6 +119,7 @@ __modelall__ = {
     # 'PVRCNN': PVRCNN,
      'PointPillar': PointPillar,
      'My3Dmodel': My3Dmodel,
+    'CenterPoint': CenterPoint,
      'VoxelNeXt': VoxelNeXt
 }
 
@@ -263,6 +265,7 @@ def main():
         args.batch_size = args.batch_size // total_gpus
 
     output_dir = cfg.ROOT_DIR / 'output' / cfg.EXP_GROUP_PATH / cfg.TAG / args.extra_tag
+    print('output directory is: ', output_dir)
     #Folder format: output/kitti_models(EXP_GROUP_PATH)/pointpillar(TAG)/extra_tag
     #output_dir = cfg.ROOT_DIR / 'output' /  cfg.TAG / args.extra_tag
     output_dir.mkdir(parents=True, exist_ok=True)
