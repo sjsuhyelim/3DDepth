@@ -109,6 +109,11 @@ Check [waymodata](Waymo/waymodata.md) for detailed information of Waymo dataset.
 | PointPillars with Resnet | 5,348,168 |
 | CenterPoint Pillars | 5,224,011 |
 
+- Location of trained model with epoch 32 (in HPC)
+    - PointPillars: `/data/cmpe249-fa23/Argoverse2/models/waymokitti_models/pointpillar/1130/ckpt/checkpoint_epoch_32.pth`  
+    - PointPillars with Resnet: `/data/cmpe249-fa23/Argoverse2/models/waymokitti_models/pointpillar_resnet/1129_resnet/ckpt/checkpoint_epoch_32.pth`  
+    - CenterPoint Pillars: `/data/cmpe249-fa23/Argoverse2/models/waymokitti_models/centerpoint_pillar/1130/ckpt/checkpoint_epoch_32.pth`
+
 ### Evaluation
 - Performed in HPC
 - Created `myevaluatev3.py` to create `.pkl` file saving numpy array instead of torch tensor with CUDA for visualization.
@@ -185,4 +190,12 @@ Inference time: 123.375 sec
 - Performed in the local machine (Mac M1 chip)
 - mayavi libray is required
 - Modify `visonebatch.py` not to import torch and to be able to plot only ground truth data 
+- Location of `pkl` file for visualization
+    - PointPillars: `/data/cmpe249-fa23/Argoverse2/outputs/eval/waymokitti_models_pointpillar_1201/waymokitti_models_pointpillar_1201_numpy_1.pkl`  
+    - PointPillars with Resnet: `/data/cmpe249-fa23/Argoverse2/outputs/eval/waymokitti_models_pointpillar_resnet_1201/waymokitti_models_pointpillar_resnet_1201_numpy_1.pkl`  
+    - CenterPoint Pillars: `/data/cmpe249-fa23/Argoverse2/outputs/eval/waymokitti_models_centerpoint_pillar_1202/waymokitti_models_centerpoint_pillar_1202_numpy_1.pkl`  
 
+  
+![PointPillars](https://drive.google.com/file/d/1trwlJHm3UmoX6b8QifJb1OtLSkLD4ZK8/view?usp=share_link)
+![PointPillars with Resnet](https://drive.google.com/file/d/1Fak8HltFTL7Ks9YB1dJDQ01y2Rm_JkKr/view?usp=share_link)
+![CenterPoint Pillars](https://drive.google.com/file/d/1Zg_ZKm7VbfTRxrE_83cEX584me1C9BL9/view?usp=share_link)
