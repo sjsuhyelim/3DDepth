@@ -196,6 +196,6 @@ Inference time: 123.375 sec
     - CenterPoint Pillars: `/data/cmpe249-fa23/Argoverse2/outputs/eval/waymokitti_models_centerpoint_pillar_1202/waymokitti_models_centerpoint_pillar_1202_numpy_1.pkl`  
 
   
-![PointPillars](https://drive.google.com/file/d/1trwlJHm3UmoX6b8QifJb1OtLSkLD4ZK8/view?usp=share_link)
-![PointPillars with Resnet](https://drive.google.com/file/d/1Fak8HltFTL7Ks9YB1dJDQ01y2Rm_JkKr/view?usp=share_link)
-![CenterPoint Pillars](https://drive.google.com/file/d/1Zg_ZKm7VbfTRxrE_83cEX584me1C9BL9/view?usp=share_link)
+![PointPillars](https://github.com/sjsuhyelim/3DDepth/blob/main/pointpillar_1.png)
+![PointPillars with Resnet](https://github.com/sjsuhyelim/3DDepth/blob/main/pointpillar_resnet_1.png)
+![CenterPoint Pillars](https://github.com/sjsuhyelim/3DDepth/blob/main/centerpoint_pillar.png)
