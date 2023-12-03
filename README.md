@@ -76,7 +76,8 @@ Check [waymodata](Waymo/waymodata.md) for detailed information of Waymo dataset.
 ### Topic: In the PointPillars model, which structural component improves more effective when modified?
 ## Data
 - Waymo KITTI point cloud data in the lab computer `/DATA5T/Dataset/WaymoKitti/4c_train5678`
-- Total number of the training data: 13,632
+- Total number of the training data: 13,632    
+
 | Class | The number of classes in the training data |
 | ------| -------------------------------------------|
 | Car   | 229,664|
@@ -100,7 +101,8 @@ Check [waymodata](Waymo/waymodata.md) for detailed information of Waymo dataset.
 ### Training
 - Performed in the lab computer equipped with Tesla P100 GPU.
 - batch_size = 2 to avoid CUDA memory error
-- All models were trained for epoch 32
+- All models were trained for epoch 32       
+
 | Model | the number of parameters |
 |-------|--------------------------|
 | PointPillars | 4,838,728 |
@@ -111,7 +113,7 @@ Check [waymodata](Waymo/waymodata.md) for detailed information of Waymo dataset.
 - Performed in HPC
 - Created `myevaluatev3.py` to create `.pkl` file saving numpy array instead of torch tensor with CUDA for visualization.
 - Used KITTI evaluation metric
-- The number of test dataset = 3,409
+- The number of test dataset = 3,409    
 PointPillars
 ```
 Car AP@0.70, 0.70, 0.70:
