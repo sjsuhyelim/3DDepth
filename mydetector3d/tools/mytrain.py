@@ -82,13 +82,13 @@ __datasetall__ = {
 #'mydetector3d/tools/cfgs/nuscenes_models/cbgs_pp_multihead.yaml'
 def parse_config():
     parser = argparse.ArgumentParser(description='arg parser')
-    parser.add_argument('--cfg_file', type=str, default='mydetector3d/tools/cfgs/waymokitti_models/centerpoint_pillar.yaml', help='specify the config for training')
+    parser.add_argument('--cfg_file', type=str, default='mydetector3d/tools/cfgs/waymokitti_models/pointpillar_resnet.yaml', help='specify the config for training')
     parser.add_argument('--batch_size', type=int, default=2, required=False, help='batch size for training')
-    parser.add_argument('--epochs', type=int, default=128, required=False, help='number of epochs to train for')
+    parser.add_argument('--epochs', type=int, default=32, required=False, help='number of epochs to train for')
     parser.add_argument('--workers', type=int, default=2, help='number of workers for dataloader')
-    parser.add_argument('--extra_tag', type=str, default='varsha', help='extra tag for this experiment')
-    parser.add_argument('--ckpt', type=str, default='/home/student/models/waymokitti_models/centerpoint_pillar/1127_cp/ckpt/latest_model.pth', help='checkpoint to start from') # '/home/student/models/waymokitti_models/pointpillar/1122/ckpt/latest_model.pth'
-    parser.add_argument('--outputfolder', type=str, default='/home/student/models', help='output folder path')
+    parser.add_argument('--extra_tag', type=str, default='1130', help='extra tag for this experiment')
+    parser.add_argument('--ckpt', type=str, default='/data/cmpe249-fa23/Argoverse2/models/waymokitti_models/pointpillar_resnet/1129_resnet/ckpt/latest_model.pth', help='checkpoint to start from') # '/home/student/models/waymokitti_models/pointpillar/1122/ckpt/latest_model.pth'
+    parser.add_argument('--outputfolder', type=str, default='/data/cmpe249-fa23/Argoverse2/models/', help='output folder path')
     parser.add_argument('--pretrained_model', type=str, default=None, help='pretrained_model')
     parser.add_argument('--launcher', choices=['none', 'pytorch', 'slurm'], default='none')
     parser.add_argument('--tcp_port', type=int, default=18888, help='tcp port for distrbuted training')

@@ -81,9 +81,11 @@ __datasetall__ = {
 }
 
 #newly created
-def load_data_to_device(batch_dict, device):
+def load_data_to_device(batch_dict, device, saving_dict):
     if type(batch_dict) is dict:
         for key, val in batch_dict.items():
+            # print('val: ', val)
+            # print(type(val))
             if not isinstance(val, np.ndarray):
                 continue
             elif key in ['frame_id', 'metadata', 'calib']:
@@ -92,10 +94,14 @@ def load_data_to_device(batch_dict, device):
             #     batch_dict[key] = kornia.image_to_tensor(val).float().cuda().contiguous()
             # elif key in ['images']:
             #     batch_dict[key] = kornia.image_to_tensor(val).float().to(device).contiguous()
-            elif key in ['image_shape']:
-                batch_dict[key] = batch_dict[key] = torch.from_numpy(val).int().to(device) #torch.from_numpy(val).int().cuda()
+            
+            elif key in ['image_shape']: 
+                batch_dict[key] = torch.from_numpy(val).int().to(device)
+                saving_dict[key] = val
             else:
                 batch_dict[key] = torch.from_numpy(val).float().to(device) #torch.from_numpy(val).float().cuda()
+                saving_dict[key] = val
+            
     # else:
     #     batch_dict = batch_dict.to(device)
 
@@ -108,8 +114,8 @@ def parse_config():
     parser.add_argument('--dataset_cfg_file', type=str, default=None, help='specify the dataset config')
     #parser.add_argument('--batch_size', type=int, default=16, required=False, help='batch size')
     parser.add_argument('--workers', type=int, default=2, help='number of workers for dataloader')
-    parser.add_argument('--ckpt', type=str, default='/data/cmpe249-fa23/Argoverse2/models/waymokitti_models/centerpoint_pillar/1130/ckpt/latest_model.pth', help='checkpoint to evaluate')
-    parser.add_argument('--tag', type=str, default='1130_resnet', help='rag name')
+    parser.add_argument('--ckpt', type=str, default='/data/cmpe249-fa23/Argoverse2/models/waymokitti_models/centerpoint_pillar/1130/ckpt/checkpoint_epoch_32.pth', help='checkpoint to evaluate')
+    parser.add_argument('--tag', type=str, default='1202', help='rag name')
     parser.add_argument('--outputpath', type=str, default='/data/cmpe249-fa23/Argoverse2/outputs/', help='output path')
     parser.add_argument('--gpuid', default=0, type=int, help='GPU id to use.')
     parser.add_argument('--save_to_file', default=True, help='')
@@ -252,6 +258,7 @@ def rundetection(dataloader, model, device, cfg, args, eval_output_dir):
         class_names = dataset.class_names
         det_annos = []
         ret_dicts = []
+        saving_dict = {}
 
         if getattr(args, 'infer_time', False):
             start_iter = int(len(dataloader) * 0.1)
@@ -267,7 +274,7 @@ def rundetection(dataloader, model, device, cfg, args, eval_output_dir):
         # Voxel_num_points: (89196,)
         for i, batch_dict in enumerate(dataloader):
             #load_data_to_gpu(batch_dict)
-            load_data_to_device(batch_dict, device) #dict cannot use .to(device)
+            load_data_to_device(batch_dict, device, saving_dict) #dict cannot use .to(device)
 
             if getattr(args, 'infer_time', False):
                 start_time = time.time()
@@ -303,18 +310,35 @@ def rundetection(dataloader, model, device, cfg, args, eval_output_dir):
 
             if args.savebatchidx is not None and i==args.savebatchidx:
                 #save the current batch data for later evaluation
-                load_data_to_device(batch_dict,'cpu')
-                load_data_to_device(pred_dicts,'cpu')
+                load_data_to_device(batch_dict,'cpu', saving_dict)
+                saving_pred_dict = {}
+                load_data_to_device(pred_dicts,'cpu', saving_pred_dict) # saving_pred_dict is a just bogus
                 save_dict = {}
                 save_dict['idx']=i
                 save_dict['ckpt']=args.ckpt
                 save_dict['cfg_file']=args.cfg_file
                 save_dict['datasetname']=args.dataset_cfg_file
-                save_dict['batch_dict']=batch_dict #batch_dict#.numpy()
-                save_dict['pred_dicts']=pred_dicts #pred_dicts#.numpy()
-                save_dict['annos']=annos#.numpy()
+
+                # Convert pred_dicts' values to numpy array
+                saving_pred_dict = pred_dicts[0]
+                for key, val in saving_pred_dict.items():
+                    #print(val)
+                    saving_pred_dict[key] = val.detach().cpu().numpy()
+
+                save_dict['batch_dict']=saving_dict #batch_dict#.numpy()
+                save_dict['pred_dicts']=saving_pred_dict #pred_dicts#.numpy()
+                save_dict['annos']=np.array(annos)#.numpy()
                 save_dict['infer_time']=infer_time_meter.val
-                resultfile=args.savename + '_frame_%s.pkl' % str(i)
+
+                # print('******************')
+                # print('save_dict')
+                # print(save_dict)
+                # print('****************')
+
+                # save it as numpy
+                resultfile=args.savename + '_numpy_%s.pkl' % str(i)
+                resultfile_path = args.output_dir / resultfile
+                print(resultfile_path)
                 with open(args.output_dir / resultfile, 'wb') as f:
                     pickle.dump(save_dict, f)
         progress_bar.close()
