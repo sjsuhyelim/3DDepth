@@ -195,7 +195,7 @@ Inference time: 123.375 sec
     - PointPillars with Resnet: `/data/cmpe249-fa23/Argoverse2/outputs/eval/waymokitti_models_pointpillar_resnet_1201/waymokitti_models_pointpillar_resnet_1201_numpy_1.pkl`  
     - CenterPoint Pillars: `/data/cmpe249-fa23/Argoverse2/outputs/eval/waymokitti_models_centerpoint_pillar_1202/waymokitti_models_centerpoint_pillar_1202_numpy_1.pkl`  
 
-PointPillars
+PointPillars   
 <img src="https://github.com/sjsuhyelim/3DDepth/blob/main/pointpillar_1.png" width="300">
 
 PointPillars with Resnet  
