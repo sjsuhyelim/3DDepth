@@ -1,3 +1,4 @@
+# From https://github.com/open-mmlab/OpenPCDet/blob/master/pcdet/models/detectors/centerpoint.py
 from .detector3d_template import Detector3DTemplate
 
 

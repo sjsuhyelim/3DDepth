@@ -203,6 +203,7 @@ class BaseBEVBackboneV1(nn.Module):
 
         return data_dict
 
+# from https://github.com/open-mmlab/OpenPCDet/blob/master/pcdet/models/backbones_2d/base_bev_backbone.py
 class BasicBlock(nn.Module):
     expansion: int = 1
 
