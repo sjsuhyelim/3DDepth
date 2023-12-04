@@ -162,7 +162,7 @@ bev  AP:12.5783, 12.4889, 12.4889
 3d   AP:0.0602, 0.0602, 0.0602
 aos  AP:0.01, 0.01, 0.01
 
-Avg. predicted # objects: 54.435 sec
+Avg. predicted # objects: 54.435
 ```
 CenterPoint Pillars
 ```
@@ -184,7 +184,7 @@ bev  AP:14.5301, 14.5288, 14.5288
 3d   AP:0.3376, 0.3367, 0.3367
 aos  AP:0.00, 0.00, 0.00
 
-Avg. predicted # objects: 123.375 sec
+Avg. predicted # objects: 123.375 
 ```
 
 ### Visualization 
