@@ -110,14 +110,14 @@ Check [waymodata](Waymo/waymodata.md) for detailed information of Waymo dataset.
 | PointPillars with Resnet | 5,348,168 |
 | CenterPoint Pillars | 5,224,011 |
 
-- Location of trained model with epoch 32 (in HPC)
+- Location of trained model upto epoch 32 (in HPC)
     - PointPillars: `/data/cmpe249-fa23/Argoverse2/models/waymokitti_models/pointpillar/1130/ckpt/checkpoint_epoch_32.pth`  
     - PointPillars with Resnet: `/data/cmpe249-fa23/Argoverse2/models/waymokitti_models/pointpillar_resnet/1129_resnet/ckpt/checkpoint_epoch_32.pth`  
     - CenterPoint Pillars: `/data/cmpe249-fa23/Argoverse2/models/waymokitti_models/centerpoint_pillar/1130/ckpt/checkpoint_epoch_32.pth`
 
 ### Evaluation
 - Performed in HPC
-- Created `myevaluatev3.py` to create `.pkl` file saving numpy array instead of torch tensor with CUDA for visualization.
+- Created `myevaluatev3.py` to create `.pkl` file saving numpy array instead of torch tensor with CUDA in order to visualize the results in the local machine that doesn't have CUDA.
 - Used KITTI evaluation metric
 - The number of test dataset = 3,409    
 PointPillars
@@ -140,7 +140,7 @@ bev  AP:12.3881, 12.4471, 12.4471
 3d   AP:0.1436, 0.1435, 0.1435
 aos  AP:0.00, 0.00, 0.00
 
-Inference time:  54.495 sec
+Avg. predicted # objects:  54.495
 ```
 PointPillars with Resnet
 ```
@@ -162,7 +162,7 @@ bev  AP:12.5783, 12.4889, 12.4889
 3d   AP:0.0602, 0.0602, 0.0602
 aos  AP:0.01, 0.01, 0.01
 
-Inference time: 54.435 sec
+Avg. predicted # objects: 54.435 sec
 ```
 CenterPoint Pillars
 ```
@@ -184,11 +184,11 @@ bev  AP:14.5301, 14.5288, 14.5288
 3d   AP:0.3376, 0.3367, 0.3367
 aos  AP:0.00, 0.00, 0.00
 
-Inference time: 123.375 sec
+Avg. predicted # objects: 123.375 sec
 ```
 
 ### Visualization 
-- Performed in the local machine (Mac M1 chip)
+- Performed in the local machine (Macbook M1 chip)
 - mayavi libray is required
 - Modify `visonebatch.py` not to import torch and to be able to plot only ground truth data 
 - Location of `pkl` file for visualization
