@@ -71,8 +71,7 @@ Check [kittidata](Kitti/kittidata.md) for detailed information of Kitti dataset.
 ## Waymo Dataset
 Check [waymodata](Waymo/waymodata.md) for detailed information of Waymo dataset.
 
-# Fall 2023, CMPE 249 Project 
-## by Hyelim Yang
+# Fall 2023, CMPE 249 Project by Hyelim Yang
 ### Track: Algorithm track  
 ### Topic:   
 #### In the PointPillars model, which structural component improves more effective when modified?
