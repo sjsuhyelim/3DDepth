@@ -71,9 +71,11 @@ Check [kittidata](Kitti/kittidata.md) for detailed information of Kitti dataset.
 ## Waymo Dataset
 Check [waymodata](Waymo/waymodata.md) for detailed information of Waymo dataset.
 
-# Fall 2023 CMPE 249 Project by Hyelim Yang
- 
-### Topic: In the PointPillars model, which structural component improves more effective when modified?
+# Fall 2023, CMPE 249 Project 
+## by Hyelim Yang
+### Track: Algorithm track  
+### Topic:   
+#### In the PointPillars model, which structural component improves more effective when modified?
 ## Data
 - Waymo KITTI point cloud data in the lab computer `/DATA5T/Dataset/WaymoKitti/4c_train5678`
 - Total number of the training data: 13,632    
